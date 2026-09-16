@@ -5,8 +5,8 @@ import { organisationName } from "../../../data/dashboardData";
 
 const ORGANISATIONS = [
   "National Health Mission",
-  "State Health Society, Tripura",
-  "District Health Society",
+  "AGMC and GBP Hospital",
+  "National AYUSH Mission, Tripura",
 ];
 
 export function DashboardHeader() {
