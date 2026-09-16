@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Button } from "../../ui/Button";
 import { organisationName } from "../../../data/dashboardData";
 
-// Replace with real org/scheme options from your API once available.
 const ORGANISATIONS = [
   "National Health Mission",
   "State Health Society, Tripura",

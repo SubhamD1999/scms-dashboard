@@ -3,8 +3,7 @@ import { BarChart3 } from "lucide-react";
 import { Card, CardHeader } from "../../ui/Card";
 import { districtIndentQuantity } from "../../../data/dashboardData";
 
-// Collapse the duplicate "West Tripura" rows from the source system into
-// one bar per district name so the chart reads cleanly.
+
 const merged = Object.values(
   districtIndentQuantity.reduce<Record<string, { district: string; totalIndent: number }>>(
     (acc, row) => {
@@ -28,16 +27,15 @@ export function DistrictPerformance() {
       />
       <div className="h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={merged} margin={{ left: -18, right: 8, top: 4 }}>
+          <BarChart data={merged} margin={{ left: -18, right: 8, top: 4 }} barCategoryGap="15%">
             <CartesianGrid vertical={false} stroke="#F1F5F9" />
             <XAxis
               dataKey="district"
               tick={{ fontSize: 11, fill: "#94A3B8" }}
               tickLine={false}
               axisLine={{ stroke: "#F1F5F9" }}
-              angle={-20}
-              textAnchor="end"
-              height={50}
+              interval={0}
+              height={40}
             />
             <YAxis
               tick={{ fontSize: 11, fill: "#94A3B8" }}

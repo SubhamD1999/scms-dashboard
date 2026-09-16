@@ -14,27 +14,30 @@ function App() {
     <div className="min-h-screen bg-[#F7F9FC]">
       <Header />
 
-      <main className="mx-auto max-w-[1600px] px-6 py-6">
+      <main className="mx-auto max-w-[1400px] px-6 py-6">
         <DashboardHeader />
 
-        {/* Top-line KPI row */}
         <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {topStats.map((stat) => (
             <StatCard key={stat.id} stat={stat} />
           ))}
         </div>
 
-        {/* Main grid: left = transactions + district performance, right = gauge + share */}
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
           <div className="space-y-6 xl:col-span-2">
             <TransactionOverview />
             <DistrictPerformance />
-            <TransactionTable />
           </div>
 
           <div className="space-y-6">
             <FulfillmentGauge />
             <DistrictDistribution />
+          </div>
+        </div>
+        <div className="mt-6" >
+          <TransactionTable />
+          <div className="mt-6" >
+
             <DistrictTable />
           </div>
         </div>

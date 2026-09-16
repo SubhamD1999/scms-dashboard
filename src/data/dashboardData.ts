@@ -1,9 +1,3 @@
-// All figures below are taken directly from the existing SCMS dashboard
-// (National Health Mission, Tripura). Swap this file for a live API call
-// once the backend endpoints are wired up — every component only depends
-// on these shapes, not on where the data comes from.
-
-
 
 export interface TransactionMetric {
   label: string;
@@ -65,10 +59,6 @@ export const todaysTransactions: TransactionMetric[] = [
   { label: "Today's Short Expiry", value: 0, icon: "expiry" },
 ];
 
-// "All District Indent Quantity" bar chart + percentage donut.
-// Note: the source dashboard lists "West Tripura" three times (a data
-// quality issue in the source system — likely duplicate/legacy store
-// entries) — preserved here as-is with district ids kept unique.
 export const districtIndentQuantity: DistrictRow[] = [
   { slNo: 1, district: "Gomati", totalIndent: 42675, annualIndent: 133, percentage: 17 },
   { slNo: 2, district: "West Tripura", totalIndent: 42056, annualIndent: 337, percentage: 17 },
@@ -135,8 +125,7 @@ export const allTransactions: TransactionRow[] = [
   },
 ];
 
-// Fulfillment rate = Issue / Indent, used to drive the gauge component.
-// Derived from the totals above (186,532 / 242,336).
+
 export const fulfillmentRate = Math.round(
   (totalTransactions[1].value / totalTransactions[0].value) * 100
 );

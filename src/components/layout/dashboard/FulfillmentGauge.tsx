@@ -4,7 +4,7 @@ import { fulfillmentRate, totalTransactions } from "../../../data/dashboardData"
 
 const RADIUS = 70;
 const STROKE = 14;
-const CIRCUMFERENCE = Math.PI * RADIUS; // half circle
+const CIRCUMFERENCE = Math.PI * RADIUS; 
 
 export function FulfillmentGauge() {
   const progress = (fulfillmentRate / 100) * CIRCUMFERENCE;

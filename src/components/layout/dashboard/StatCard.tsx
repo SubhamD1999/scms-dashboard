@@ -8,11 +8,10 @@ const ICONS: Record<TopStat["icon"], LucideIcon> = {
   pill: Pill,
 };
 
-// Gradient fill for the "filled" variant + tint for the "light" variant's icon badge.
-// freq/phase give each icon's sparkline a distinct silhouette, not just a different color.
+
 
 const PALETTE: Record<TopStat["icon"], { fill: string; iconBg: string; iconText: string; line: string; freq: number; phase: number }> = {
-  store:  { fill: "bg-gradient-to-b from-blue-500 to-blue-400",       iconBg: "bg-blue-50",    iconText: "text-blue-600",    line: "#2563EB", freq: 5.5, phase: 0.4 },
+  store:  { fill: "bg-gradient-to-b from-blue-500 to-blue-400",       iconBg: "bg-blue-50",    iconText: "text-blue-600",    line: "#2563EB", freq: 8.5, phase: 8.5 },
   layers: { fill: "bg-gradient-to-b from-orange-500 to-orange-400",   iconBg: "bg-orange-50",  iconText: "text-orange-600",  line: "#D97706", freq: 8.5, phase: 2.1 },
   box:    { fill: "bg-gradient-to-b from-emerald-500 to-emerald-400", iconBg: "bg-emerald-50", iconText: "text-emerald-600", line: "#059669", freq: 3.2, phase: 4.8 },
   pill:   { fill: "bg-gradient-to-b from-purple-500 to-purple-400",   iconBg: "bg-purple-50",  iconText: "text-purple-600",  line: "#7C3AED", freq: 10.5, phase: 1.2 },
@@ -51,21 +50,111 @@ function Sparkline({ seed, color, freq, phase }: { seed: number; color: string; 
   );
 }
 
-function BarPulse({ seed, freq, phase }: { seed: number; freq: number; phase: number }) {
-  const values = wave(seed + 3, 9, 12, 16, freq, phase).map((v) => Math.max(6, Math.min(30, v + 16)));
-
+function DotCluster({ seed }: { seed: number }) {
+  const dots = Array.from({ length: 12 }, (_, i) => {
+    const r = ((seed + i * 37) % 100) / 100;
+    const angle = (i / 12) * Math.PI * 2 + r;
+    const radius = 10 + ((seed + i * 13) % 10);
+    return {
+      cx: 20 + Math.cos(angle) * radius,
+      cy: 20 + Math.sin(angle) * radius * 0.7,
+      r: 2 + ((seed + i) % 3),
+    };
+  });
   return (
-    <div className="flex h-10 shrink-0 items-end gap-[3px]">
-      {values.map((h, i) => (
-        <span
-          key={i}
-          className="w-[3px] rounded-full bg-white"
-          style={{ height: `${h}px`, opacity: 0.5 + (h / 30) * 0.5 }}
-        />
+    <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0">
+      {dots.map((d, i) => (
+        <circle key={i} cx={d.cx} cy={d.cy} r={d.r} fill="white" opacity={0.35 + (i % 4) * 0.15} />
       ))}
-    </div>
+    </svg>
   );
 }
+
+function RingSegments({ seed }: { seed: number }) {
+  const segs = 5;
+  const gap = 8;
+  return (
+    <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0">
+      {Array.from({ length: segs }, (_, i) => {
+        const start = i * (360 / segs) + gap / 2;
+        const end = (i + 1) * (360 / segs) - gap / 2;
+        const r = 16;
+        const cx = 20;
+        const cy = 20;
+        const toRad = (deg: number) => (deg - 90) * (Math.PI / 180);
+        const x1 = cx + r * Math.cos(toRad(start));
+        const y1 = cy + r * Math.sin(toRad(start));
+        const x2 = cx + r * Math.cos(toRad(end));
+        const y2 = cy + r * Math.sin(toRad(end));
+        const largeArc = end - start > 180 ? 1 : 0;
+        return (
+          <path
+            key={i}
+            d={`M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`}
+            fill="none"
+            stroke="white"
+            strokeWidth={4}
+            strokeLinecap="round"
+            opacity={0.4 + ((seed + i) % 4) * 0.15}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+function ItemGrid({ seed }: { seed: number }) {
+  const size = 3;
+  const cells = Array.from({ length: size * size }, (_, i) => (seed + i * 17) % 4);
+  return (
+    <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0">
+      {cells.map((v, i) => {
+        const row = Math.floor(i / size);
+        const col = i % size;
+        return (
+          <rect
+            key={i}
+            x={4 + col * 12}
+            y={4 + row * 12}
+            width={8}
+            height={8}
+            rx={2}
+            fill="white"
+            opacity={0.3 + (v / 4) * 0.5}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+/** EDL: an orbit motif — small moons circling a center point. */
+function Orbit({ seed }: { seed: number }) {
+  const moons = 3;
+  return (
+    <svg viewBox="0 0 40 40" className="h-10 w-10 shrink-0">
+      <circle cx={20} cy={20} r={4} fill="white" opacity={0.9} />
+      {Array.from({ length: moons }, (_, i) => {
+        const r = 10 + i * 6;
+        const angle = ((seed + i * 53) % 360) * (Math.PI / 180);
+        return (
+          <g key={i}>
+            <circle cx={20} cy={20} r={r} fill="none" stroke="white" strokeWidth={1} opacity={0.25} />
+            <circle cx={20 + r * Math.cos(angle)} cy={20 + r * Math.sin(angle)} r={2.5} fill="white" opacity={0.85} />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/** Per-icon-type decorative visual shown on the "filled" (gradient) card variant. */
+const DECOR: Record<TopStat["icon"], (seed: number) => JSX.Element> = {
+  store: (seed) => <DotCluster seed={seed} />,
+  layers: (seed) => <RingSegments seed={seed} />,
+  box: (seed) => <ItemGrid seed={seed} />,
+  pill: (seed) => <Orbit seed={seed} />,
+};
 
 export function StatCard({ stat }: { stat: TopStat }) {
   const Icon = ICONS[stat.icon];
@@ -93,7 +182,7 @@ export function StatCard({ stat }: { stat: TopStat }) {
       </div>
 
       {filled ? (
-        <BarPulse seed={stat.value} freq={palette.freq} phase={palette.phase} />
+        DECOR[stat.icon](stat.value)
       ) : (
         <Sparkline seed={stat.value} color={palette.line} freq={palette.freq} phase={palette.phase} />
       )}

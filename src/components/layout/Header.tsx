@@ -63,7 +63,6 @@ export function Header() {
           <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-rose-500" />
         </button>
 
-        {/* <div className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-400 to-blue-500 ring-2 ring-white" /> */}
       </div>
     </header>
   );

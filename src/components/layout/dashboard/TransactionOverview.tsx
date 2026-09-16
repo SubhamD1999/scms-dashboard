@@ -46,7 +46,7 @@ export function TransactionOverview() {
                 onClick={() => setActiveTab(t.id)}
                 className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                   activeTab === t.id
-                    ? "bg-white text-slate-800 shadow-sm"
+                    ? "bg-orange-500 text-white shadow-sm"
                     : "text-slate-400 hover:text-slate-600"
                 }`}
               >

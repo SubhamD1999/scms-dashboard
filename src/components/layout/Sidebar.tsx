@@ -9,12 +9,7 @@ const ITEMS = [
   { id: "transactions", icon: Truck, label: "Transactions" },
 ];
 
-/**
- * The reference layout (image 1) relies on a top nav rather than a side
- * rail, so App.tsx doesn't render this by default. It's kept here, ready
- * to drop in on the left of the page shell, for pages that need quick
- * section-jumping alongside the top nav (e.g. a future Districts page).
- */
+
 export function Sidebar() {
   const [active, setActive] = useState("overview");
 

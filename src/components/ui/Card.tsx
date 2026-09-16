@@ -39,7 +39,7 @@ export function CardHeader({ title, subtitle, action, icon }: CardHeaderProps) {
           </span>
         )}
         <div>
-          <h3 className="text-[15px] font-semibold text-slate-800">{title}</h3>
+          <h3 className="text-[15px] bg- font-semibold text-slate-800">{title}</h3>
           {subtitle && <p className="text-xs text-slate-400">{subtitle}</p>}
         </div>
       </div>
