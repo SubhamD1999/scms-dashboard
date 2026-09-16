@@ -7,7 +7,7 @@ export function Header() {
   const [active, setActive] = useState("Dashboard");
 
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-slate-100 bg-white/90 px-6 py-3 backdrop-blur">
+    <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-slate-100 bg-white/70 px-6 py-3 backdrop-blur">
       <div className="flex items-center gap-2.5">
         <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-sm shadow-blue-500/30">
           <Warehouse size={18} />
