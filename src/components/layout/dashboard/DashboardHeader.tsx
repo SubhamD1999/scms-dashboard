@@ -15,13 +15,13 @@ export function DashboardHeader() {
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <p className="text-sm text-slate-400">Supply Chain Management System</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-800">
+        <h1 className="text-xl lg:text-2xl font-semibold tracking-tight text-slate-800">
           Dashboard Overview
         </h1>
+        <p className="text-sm text-slate-400">Supply Chain Management System</p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
         <div className="relative">
           <select
             value={org}
