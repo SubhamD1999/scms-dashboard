@@ -21,7 +21,7 @@ export function DashboardHeader() {
         <p className="text-sm text-slate-400">Supply Chain Management System</p>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 lg:gap-4">
         <div className="relative">
           <select
             value={org}
