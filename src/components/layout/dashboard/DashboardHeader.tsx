@@ -21,12 +21,12 @@ export function DashboardHeader() {
         <p className="text-sm text-slate-400">Supply Chain Management System</p>
       </div>
 
-      <div className="flex items-center gap-1 lg:gap-4">
+      <div className="flex lg:flex-row flex-col lg:items-center gap-1 lg:gap-4">
         <div className="relative">
           <select
             value={org}
             onChange={(e) => setOrg(e.target.value)}
-            className="appearance-none rounded-full border border-slate-200 bg-white py-2 pl-4 pr-9 text-sm font-medium text-slate-600 shadow-sm outline-none hover:bg-slate-50 focus:ring-2 focus:ring-blue-100"
+            className="lg:w-auto w-full appearance-none rounded-full border border-slate-200 bg-white py-2 pl-4 pr-9 text-sm font-medium text-slate-600 shadow-sm outline-none hover:bg-slate-50 focus:ring-2 focus:ring-blue-100"
           >
             {ORGANISATIONS.map((name) => (
               <option key={name} value={name}>
