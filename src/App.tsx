@@ -33,14 +33,14 @@ function App() {
             <FulfillmentGauge />
             <DistrictDistribution />
           </div>
-          <TransactionTable />
         </div>
+        <div className="mt-6" >
+          <TransactionTable />
           <div className="mt-6" >
 
-        <div className="mt-6" >
             <DistrictTable />
-            </div>
           </div>
+        </div>
       </main>
     </div>
   );
