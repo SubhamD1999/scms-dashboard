@@ -1,48 +1,20 @@
-import { Header } from "./components/layout/Header";
-import { DashboardHeader } from "./components/layout/dashboard/DashboardHeader";
-import { StatCard } from "./components/layout/dashboard/StatCard";
-import { TransactionOverview } from "./components/layout/dashboard/TransactionOverview";
-import { DistrictPerformance } from "./components/layout/dashboard/DistrictPerformance";
-import { DistrictDistribution } from "./components/layout/dashboard/DistrictDistribution";
-import { DistrictTable } from "./components/layout/dashboard/DistrictTable";
-import { TransactionTable } from "./components/layout/dashboard/TransactionTable";
-import { FulfillmentGauge } from "./components/layout/dashboard/FulfillmentGauge";
-import { topStats } from "./data/dashboardData";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AppLayout } from "./components/layout/AppLayout";
+import DashboardPage from "./pages/DashboardPage";
+import LoginPage from "./pages/LoginPage";
+import Suppliers from "./pages/supplier/Suppliers";
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#F7F9FC]">
-      <Header />
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
 
-      <main className="mx-auto max-w-[1400px] px-6 py-6">
-        <DashboardHeader />
-
-        <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {topStats.map((stat) => (
-            <StatCard key={stat.id} stat={stat} />
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-          <div className="space-y-6 xl:col-span-2">
-            <TransactionOverview />
-            <DistrictPerformance />
-          </div>
-
-          <div className="space-y-6">
-            <FulfillmentGauge />
-            <DistrictDistribution />
-          </div>
-        </div>
-        <div className="mt-6" >
-          <TransactionTable />
-          <div className="mt-6" >
-
-            <DistrictTable />
-          </div>
-        </div>
-      </main>
-    </div>
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/suppliers" element={<Suppliers />} />
+      </Route>
+    </Routes>
   );
 }
 

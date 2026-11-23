@@ -1,29 +1,42 @@
-import {
-  Bell,
-  LayoutGrid,
-  Search,
-  Settings,
-  Warehouse,
-} from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { LogOut, UserCircle } from "lucide-react";
 
-const NAV_ITEMS = [
-  "Dashboard",
-  "Districts",
-  "Stores",
-  "Transactions",
-  "Reports",
-];
+type HeaderProps = {
+  userName?: string;
+  onLogout?: () => void;
+};
 
-export function Header() {
-  const [active, setActive] = useState("Dashboard");
+export function Header({ userName = "Subham Debnath", onLogout }: HeaderProps) {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click or Escape
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
 
   return (
     <header
       className="
         sticky top-0 z-30
         flex h-[68px] items-center
-        justify-between gap-5
+        justify-end gap-5
         border-b border-slate-200/80
         bg-white/95
         px-5
@@ -32,249 +45,78 @@ export function Header() {
         lg:px-7
       "
     >
-
-      <div className="flex shrink-0 items-center gap-2.5">
-        <div
-          className="
-            flex h-9 w-9 items-center justify-center
-            rounded-lg
-            bg-gradient-to-br
-            from-blue-800 to-blue-600
-            text-white
-            shadow-sm shadow-blue-700/20
-          "
-        >
-          <Warehouse size={18} strokeWidth={2.1} />
-        </div>
-
-        <div className="leading-none">
-          <div
-            className="
-              text-[16px]
-              font-bold
-              tracking-tight
-              text-slate-800
-            "
-          >
-            SCMS<span className="text-blue-700">.</span>
-          </div>
-
-          <div
-            className="
-              mt-1
-              text-[8px]
-              font-semibold
-              uppercase
-              tracking-[0.16em]
-              text-slate-400
-            "
-          >
-            Supply Chain Management
-          </div>
-        </div>
-      </div>
-
-    
-      <nav
-        className="
-          hidden
-          h-10
-          items-center
-          gap-0.5
-          rounded-lg
-          border border-slate-200
-          bg-slate-50/70
-          p-1
-          lg:flex
-        "
-      >
-        {NAV_ITEMS.map((item) => {
-          const isActive = active === item;
-
-          return (
-            <button
-              key={item}
-              onClick={() => setActive(item)}
-              className={`
-                relative
-                h-8
-                rounded-md
-                px-3.5
-                text-[13px]
-                font-medium
-                transition-all
-                duration-150
-
-                ${
-                  isActive
-                    ? `
-                      bg-white
-                      text-blue-800
-                      shadow-sm
-                      ring-1 ring-inset ring-slate-200/80
-                    `
-                    : `
-                      text-slate-500
-                      hover:bg-white/70
-                      hover:text-slate-700
-                    `
-                }
-              `}
-            >
-              {item}
-
-              {isActive && (
-                <span
-                  className="
-                    absolute
-                    bottom-0.5
-                    left-1/2
-                    h-0.5
-                    w-5
-                    -translate-x-1/2
-                    rounded-full
-                    bg-blue-700
-                  "
-                />
-              )}
-            </button>
-          );
-        })}
-      </nav>
-
-      
       <div className="flex items-center gap-2">
-        <label
-          className="
-            hidden
-            h-9
-            items-center
-            gap-2
-            rounded-lg
-            border border-slate-200
-            bg-slate-50/70
-            px-3
-            text-slate-400
-            transition-all
-
-            focus-within:border-blue-300
-            focus-within:bg-white
-            focus-within:ring-2
-            focus-within:ring-blue-100
-
-            md:flex
-          "
-        >
-          <Search size={15} strokeWidth={2} />
-
-          <input
-            type="text"
-            placeholder="Search stores, districts..."
-            className="
-              w-40
-              bg-transparent
-              text-xs
-              font-medium
-              text-slate-700
-              placeholder:text-slate-400
-              focus:outline-none
-              lg:w-48
-            "
-          />
-
-          <span
-            className="
-              hidden
-              rounded
-              border border-slate-200
-              bg-white
-              px-1.5
-              py-0.5
-              text-[9px]
-              font-medium
-              text-slate-400
-              lg:block
-            "
-          >
-            ⌘K
-          </span>
-        </label>
-
         <div className="mx-1 hidden h-6 w-px bg-slate-200 sm:block" />
 
-        <button
-          aria-label="Grid view"
-          className="
-            hidden
-            h-9 w-9
-            items-center justify-center
-            rounded-lg
-            border border-transparent
-            text-slate-400
-            transition-all
+        <div ref={menuRef} className="relative">
+          <button
+            type="button"
+            aria-label="User menu"
+            aria-haspopup="menu"
+            aria-expanded={open}
+            onClick={() => setOpen((prev) => !prev)}
+            className={`
+              hidden
+              h-9 w-9
+              items-center justify-center
+              rounded-lg
+              border
+              transition-all
+              sm:flex
+              ${
+                open
+                  ? "border-slate-200 bg-slate-50 text-blue-700"
+                  : "border-transparent text-slate-400 hover:border-slate-200 hover:bg-slate-50 hover:text-blue-700"
+              }
+            `}
+          >
+            <UserCircle size={17} strokeWidth={1.9} />
+          </button>
 
-            hover:border-slate-200
-            hover:bg-slate-50
-            hover:text-blue-700
+          {open && (
+            <div
+              role="menu"
+              className="
+                absolute right-0 top-full mt-2
+                w-56
+                overflow-hidden
+                rounded-xl
+                border border-slate-200
+                bg-white
+                shadow-lg shadow-slate-900/10
+              "
+            >
+              <div className="px-4 py-3">
+                <p className="text-xs text-slate-500">Signed in as</p>
+                <p className="truncate text-sm font-medium text-slate-900">
+                  {userName}
+                </p>
+              </div>
 
-            sm:flex
-          "
-        >
-          <LayoutGrid size={17} strokeWidth={1.9} />
-        </button>
+              <div className="h-px bg-slate-100" />
 
-        <button
-          aria-label="Settings"
-          className="
-            hidden
-            h-9 w-9
-            items-center justify-center
-            rounded-lg
-            border border-transparent
-            text-slate-400
-            transition-all
-
-            hover:border-slate-200
-            hover:bg-slate-50
-            hover:text-blue-700
-
-            sm:flex
-          "
-        >
-          <Settings size={17} strokeWidth={1.9} />
-        </button>
-
-        <button
-          aria-label="Notifications"
-          className="
-            relative
-            flex h-9 w-9
-            items-center justify-center
-            rounded-lg
-            border border-transparent
-            text-slate-400
-            transition-all
-
-            hover:border-slate-200
-            hover:bg-slate-50
-            hover:text-blue-700
-          "
-        >
-          <Bell size={17} strokeWidth={1.9} />
-
-          <span
-            className="
-              absolute
-              right-[8px]
-              top-[7px]
-              h-1.5
-              w-1.5
-              rounded-full
-              bg-rose-500
-              ring-2 ring-white
-            "
-          />
-        </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => {
+                  setOpen(false);
+                  onLogout?.();
+                }}
+                className="
+                  flex w-full items-center gap-2
+                  px-4 py-2.5
+                  text-left text-sm text-red-600
+                  transition-colors
+                  hover:bg-red-50
+                  focus-visible:bg-red-50 focus-visible:outline-none
+                "
+              >
+                <LogOut size={15} strokeWidth={1.9} />
+                Log out
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
